@@ -1,25 +1,18 @@
-name: SonarQube Cloud
-
+name: Build
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
     types: [opened, synchronize, reopened]
-
-permissions:
-  contents: read
-  pull-requests: read
-
 jobs:
-  analyze:
-    name: Analyze
+  sonarqube:
+    name: SonarQube
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the code
-        uses: actions/checkout@v7
+      - uses: actions/checkout@v7
         with:
-          # a full history gives SonarQube Cloud the information it needs to find the new code
-          fetch-depth: 0
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
       #============== Node, Dependecies, Coverage wurden manuell hinzugefügt ==============
       - name: Set up Node.js
@@ -34,7 +27,14 @@ jobs:
       - name: Run tests with coverage
         run: npm run coverage
       #======================================
-      - name: SonarQube Cloud scan
+
+      - name: Cache SonarQube packages
+        uses: actions/cache@v6
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v8
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
