@@ -1,3 +1,5 @@
+[![Quality gate status](https://sonarcloud.io/api/project_badges/measure?project=LaurenceRimturner_Code-Quality-Connect-Sonarqube-Cloud&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=LaurenceRimturner_Code-Quality-Connect-Sonarqube-Cloud)
+
 # Connect SonarQube Cloud
 
 (difficulty: 🔥)
